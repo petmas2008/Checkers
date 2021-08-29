@@ -9,7 +9,13 @@ they can do the same. If a piece reaches the opposing king row then
 that piece becomes a king and can move diagonally in any direction.
 """
 from pprint import pprint
+import pygame
 
+pygame.init()
+
+screen = pygame.display.set_mode([400, 400])
+running = True
+cur_player = 2
 board = [['e', 'p2', 'e', 'p2', 'e', 'p2', 'e', 'p2'],
          ['p2', 'e', 'p2', 'e', 'p2', 'e', 'p2', 'e'],
          ['e', 'p2', 'e', 'p2', 'e', 'p2', 'e', 'p2'],
@@ -115,18 +121,35 @@ def get_move(cur_player, current_casualties):
             return_error_message()
 
 
-def players():
-    while True:
-        yield 1
-        yield 2
+# def players():
+#     while True:
+#         yield 1
+#         yield 2
+#
+#
+# def run():
+#     for cur_player in players():
+#         current_casualties = []
+#         print("Current player:", str(cur_player))
+#         get_move(cur_player, current_casualties)
+#         pprint(board)
 
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-def run():
-    for cur_player in players():
-        current_casualties = []
-        print("Current player:", str(cur_player))
-        get_move(cur_player, current_casualties)
-        pprint(board)
+    if cur_player == 1:
+        cur_player = 2
+    elif cur_player == 2:
+        cur_player = 1
 
+    # current_casualties = []
+    # print("Current player:", str(cur_player))
+    # get_move(cur_player, current_casualties)
+    # pprint(board)
 
-run()
+    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
+
+    pygame.display.flip()
+# run()
