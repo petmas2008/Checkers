@@ -10,6 +10,7 @@ that piece becomes a king and can move diagonally in any direction.
 """
 from pprint import pprint
 import pygame
+import draw
 
 pygame.init()
 
@@ -121,18 +122,20 @@ def get_move(cur_player, current_casualties):
             return_error_message()
 
 
+def check_if_won():
+    if "p2" not in board:
+        return True, "p2"
+    elif "p1" not in board:
+        return True, "p2"
+
+# This is another to alternate between players however
+# it interferes with the pygame loop
+
 # def players():
 #     while True:
 #         yield 1
 #         yield 2
-#
-#
-# def run():
-#     for cur_player in players():
-#         current_casualties = []
-#         print("Current player:", str(cur_player))
-#         get_move(cur_player, current_casualties)
-#         pprint(board)
+
 
 while running:
     for event in pygame.event.get():
@@ -144,12 +147,13 @@ while running:
     elif cur_player == 2:
         cur_player = 1
 
-    # current_casualties = []
-    # print("Current player:", str(cur_player))
-    # get_move(cur_player, current_casualties)
-    # pprint(board)
+    current_casualties = []
+    print("Current player:", str(cur_player))
+    get_move(cur_player, current_casualties)
+    draw.draw_board(screen)
+    draw.draw_pieces(screen, board)
 
-    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
-
+    if check_if_won()[0]:
+        print("Congratulations", check_if_won()[1])
+    
     pygame.display.flip()
-# run()
